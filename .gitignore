@@ -5,3 +5,4 @@ static
 binaryIndividualPredictions.keras
 nonBinaryIndividualPredictions.keras
 unet_spine_segmentation.pth
+__pycache__

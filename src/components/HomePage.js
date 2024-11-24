@@ -118,11 +118,13 @@ const HomePage = () => {
 
   const handleFileUpload = (selectedFile) => {
     setFile(selectedFile);
+    setDiscImages([]); // Clear old disc images
+    setPreview(null); // Clear old preview image
     setLoading(true); // Start loading animation
   
     const reader = new FileReader();
     reader.onloadend = () => {
-      setPreview(reader.result);
+      setPreview(reader.result); // Set temporary preview
     };
     reader.readAsDataURL(selectedFile);
   
@@ -145,11 +147,14 @@ const HomePage = () => {
             isClosable: true,
           });
   
+          // Set new preview and disc images
           setPreview(`http://127.0.0.1:5000${data.output_image_url}`);
-          setDiscImages(data.disc_images.map((disc) => ({
-            url: `http://127.0.0.1:5000${disc.url}`,
-            message: disc.message,
-          })));
+          setDiscImages(
+            data.disc_images.map((disc) => ({
+              url: `http://127.0.0.1:5000${disc.url}`,
+              message: disc.message,
+            }))
+          );
         } else {
           toast({
             title: "Processing Failed",
