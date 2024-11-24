@@ -17,10 +17,11 @@ import {
   Badge,
   Flex,
   Divider,
-  keyframes,
   Grid,
   GridItem,
+  Spinner,
 } from '@chakra-ui/react';
+import { keyframes } from '@emotion/react';
 import { FiFile, FiX, FiShield, FiCpu, FiActivity } from 'react-icons/fi';
 
 // Animation keyframes
@@ -64,6 +65,8 @@ const FeatureCard = ({ icon, title, description }) => (
 );
 
 const HomePage = () => {
+  const [loading, setLoading] = useState(false);
+  const [discImages, setDiscImages] = useState([]);
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -115,21 +118,63 @@ const HomePage = () => {
 
   const handleFileUpload = (selectedFile) => {
     setFile(selectedFile);
+    setLoading(true); // Start loading animation
+  
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreview(reader.result);
     };
     reader.readAsDataURL(selectedFile);
-    simulateUploadProgress();
-
-    toast({
-      title: "File uploaded successfully",
-      description: selectedFile.name,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
+  
+    // Upload file to backend
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+  
+    fetch('http://127.0.0.1:5000/upload', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.output_image_url) {
+          toast({
+            title: "Processing Successful",
+            description: "The image has been processed.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+  
+          setPreview(`http://127.0.0.1:5000${data.output_image_url}`);
+          setDiscImages(data.disc_images.map((disc) => ({
+            url: `http://127.0.0.1:5000${disc.url}`,
+            message: disc.message,
+          })));
+        } else {
+          toast({
+            title: "Processing Failed",
+            description: "The server could not process the image.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error);
+        toast({
+          title: "Upload Failed",
+          description: "There was an error uploading the image.",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false); // Stop loading animation
+      });
   };
+  
 
   const handleFileSelect = (e) => {
     if (e.target.files[0]) {
@@ -289,22 +334,83 @@ const HomePage = () => {
                             <Icon as={FiX} />
                           </Button>
                         </HStack>
-                        {preview && (
-                          <Image
-                            src={preview}
-                            alt="Preview"
-                            maxH="300px"
-                            objectFit="contain"
-                            borderRadius="lg"
-                          />
-                        )}
-                        {uploadProgress > 0 && (
-                          <Progress
-                            value={uploadProgress}
-                            size="sm"
-                            colorScheme="blue"
-                            borderRadius="full"
-                          />
+                        <Center>
+                          {loading ? (
+                            <Flex
+                              direction="column"
+                              align="center"
+                              justify="center"
+                              height="300px" // Ensure it has a fixed height for vertical centering
+                            >
+                              <Spinner
+                                thickness="4px"
+                                speed="0.65s"
+                                emptyColor="gray.200"
+                                color="blue.500"
+                                size="xl"
+                              />
+                              <Text mt={4} color="gray.500" fontSize="md">
+                                Processing your image...
+                              </Text>
+                            </Flex>
+                          ) : (
+                            preview && (
+                              <Box mt={8}>
+                                <Heading size="md" color="#1a365d" textAlign="center" mb={4}>
+                                  Processed Image
+                                </Heading>
+                                <Image
+                                  src={preview}
+                                  alt="Processed Output"
+                                  maxH="400px"
+                                  objectFit="contain"
+                                  borderRadius="lg"
+                                  boxShadow="lg"
+                                />
+                              </Box>
+                            )
+                          )}
+                        </Center>
+
+                        {discImages.length > 0 && (
+                          <Box mt={8}>
+                            <Heading size="md" color="#1a365d" textAlign="center" mb={4}>
+                              Extracted Disc Images
+                            </Heading>
+                            <Grid templateColumns="repeat(auto-fit, minmax(150px, 1fr))" gap={4}>
+                            {discImages.map((disc, index) => (
+                              <Flex
+                                key={index}
+                                direction="column"
+                                align="center"
+                                justify="center"
+                                textAlign="center"
+                                p={4}
+                                borderRadius="md"
+                                boxShadow="lg"
+                                bg="white"
+                              >
+                                <Image
+                                  src={disc.url}
+                                  alt={`Disc Image ${index + 1}`}
+                                  maxH="150px"
+                                  objectFit="contain"
+                                  borderRadius="lg"
+                                  boxShadow="lg"
+                                  mb={4} // Add space between the image and text
+                                />
+                                <Text color="gray.500" fontSize="sm" textAlign="center">
+                                  {disc.message.split('\n').map((line, i) => (
+                                    <span key={i}>
+                                      {line}
+                                      <br />
+                                    </span>
+                                  ))}
+                                </Text>
+                              </Flex>
+                            ))}
+                            </Grid>
+                          </Box>
                         )}
                       </VStack>
                     </Box>
