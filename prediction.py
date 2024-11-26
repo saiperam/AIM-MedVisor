@@ -87,17 +87,7 @@ def make_predictions():
             # Interpret non-binary predictions
             predicted_pfirrman = np.argmax(nonBinaryPredictions[0]) + 1  # Add 1 if classes are 1-5
             predicted_modic = np.argmax(nonBinaryPredictions[1])
-            print(f"Predicted Pfirrman grade: {predicted_pfirrman}")
-            print(f"Predicted Modic: {predicted_modic}")
-            print(f"Probability of Up-Endplate: {binaryPredictions[0][0][0]}")
-            print(f"Probability of Low-Endplate: {binaryPredictions[1][0][0]}")
-            print(f"Probability of Disc-Herniation: {binaryPredictions[2][0][0]}")
-            print(f"Probability of Disc-Narrowing: {binaryPredictions[3][0][0]}")
-            print(f"Probability of Disc-Bulging: {binaryPredictions[4][0][0]}")
-            print(f"Probability of Spondylolisthesis: {binaryPredictions[5][0][0]}")
-            print("-" * 40)  # Separator between each image output
-            
-            
+     
             message = (
                 f"Pfirrman Grade: {predicted_pfirrman}\n"
                 f"Modic: {predicted_modic}\n"
@@ -109,20 +99,6 @@ def make_predictions():
                 f"Spondylilisthesis: {binaryPredictions[5][0][0]:.2f}\n"
             )
             message_array.append(message)
-
-            # Print out predictions for the image
-            
-            print(f"Predicted Pfirrman grade: {predicted_pfirrman}")
-            print(f"Predicted Modic: {predicted_modic}")
-            print(f"Probability of Up-Endplate: {binaryPredictions[0][0][0]}")
-            print(f"Probability of Low-Endplate: {binaryPredictions[1][0][0]}")
-            print(f"Probability of Disc-Herniation: {binaryPredictions[2][0][0]}")
-            print(f"Probability of Disc-Narrowing: {binaryPredictions[3][0][0]}")
-            print(f"Probability of Disc-Bulging: {binaryPredictions[4][0][0]}")
-            print(f"Probability of Spondylolisthesis: {binaryPredictions[5][0][0]}")
-            print("-" * 40)  # Separator between each image output
-            
-            
             disc_num += 1
 
     print(message_array)
