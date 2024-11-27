@@ -19,18 +19,32 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputMessage.trim()) {
       setMessages([...messages, { text: inputMessage, sender: 'user' }]);
       setInputMessage('');
-      // Here you would typically handle the chatbot response
-      // For now, let's just add a mock response
-      setTimeout(() => {
-        setMessages(prev => [...prev, {
-          text: "I have contacted Love Bhusal! He has told me to tell you the damage is too much, and there is no hope for you. Is there anything else I can help you with? :)",
-          sender: 'bot'
-        }]);
-      }, 1000);
+  
+      try {
+        // Send GET request to the Flask backend
+        const response = await fetch(`http://127.0.0.1:5000/get?msg=${encodeURIComponent(inputMessage)}`);
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch response from server.');
+        }
+  
+        const data = await response.json();
+        
+        setMessages((prev) => [
+          ...prev,
+          { text: data.response, sender: 'bot' },
+        ]);
+      } catch (error) {
+        console.error('Error fetching chatbot response:', error);
+        setMessages((prev) => [
+          ...prev,
+          { text: 'Error: Unable to fetch response from the server.', sender: 'bot' },
+        ]);
+      }
     }
   };
 
@@ -71,7 +85,7 @@ const ChatBot = () => {
               justify="space-between"
               align="center"
             >
-              <Text fontWeight="bold">Lumby :) </Text>
+              <Text fontWeight="bold">Lumby :</Text>
               <CloseButton onClick={() => setIsOpen(false)} />
             </Flex>
 

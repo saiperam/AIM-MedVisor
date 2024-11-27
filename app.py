@@ -9,6 +9,7 @@ from flask_cors import CORS
 import tensorflow as tf
 from prediction import split_image
 from prediction import make_predictions
+from chat import get_response
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -137,6 +138,16 @@ def upload_image():
             return jsonify({"error": "Failed to process the image"}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route("/get", methods=["GET"])
+def chat():
+    user_message = request.args.get('msg')  # Get user input from URL query string
+    print(f"Received message: {user_message}")
+    if user_message:
+        response = get_response(user_message)  # Get chatbot response
+        print(f"Generated response: {response}")
+        return jsonify({"response": response})
+    return jsonify({"response": "I do not understand..."})
 
 if __name__ == '__main__':
     app.run(debug=True)
