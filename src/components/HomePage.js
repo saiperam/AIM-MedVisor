@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import ChatBot from './ChatBot';
 import {
   Box,
   Container,
@@ -192,6 +193,75 @@ const HomePage = () => {
     setPreview(null);
     setUploadProgress(0);
   };
+
+  const Testimonial = ({ text, author, role }) => (
+    <Box
+      bg="white"
+      p={8}
+      borderRadius="xl"
+      boxShadow="0 4px 6px rgba(0, 0, 0, 0.05)"
+      maxW="sm"
+      position="relative"
+      transition="all 0.3s ease"
+      _hover={{
+        transform: 'translateY(-8px)',
+        boxShadow: '0 12px 24px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      {/* Decorative quote mark */}
+      <Box
+        position="absolute"
+        top={4}
+        left={4}
+        fontSize="6xl"
+        color="#90CDF4"
+        opacity={0.3}
+        lineHeight="1"
+        fontFamily="Georgia, serif"
+      >
+        "
+      </Box>
+  
+      {/* Testimonial text */}
+      <Text
+        mt={8}
+        mb={6}
+        fontSize="md"
+        lineHeight="1.7"
+        color="gray.700"
+        fontStyle="italic"
+        position="relative"
+        zIndex="1"
+      >
+        {text}
+      </Text>
+  
+      {/* Divider */}
+      <Box
+        w="40px"
+        h="2px"
+        bg="blue.100"
+        mb={4}
+      />
+  
+      {/* Author info */}
+      <VStack align="flex-start" spacing={1}>
+        <Text
+          fontWeight="bold"
+          color="#1a365d"
+          fontSize="md"
+        >
+          {author}
+        </Text>
+        <Text
+          color="gray.500"
+          fontSize="sm"
+        >
+          {role}
+        </Text>
+      </VStack>
+    </Box>
+  );
 
   return (
     <Box bg="#1a365d" minH="100vh">
@@ -467,6 +537,65 @@ const HomePage = () => {
         </Container>
       </Box>
 
+      <Box bg="gray.50" py={20}>
+  <Container maxW="container.xl">
+    <VStack spacing={12}>
+      {/* Section heading with decorative element */}
+      <VStack spacing={4}>
+        <Heading 
+          color="#1a365d" 
+          size="xl" 
+          textAlign="center"
+          position="relative"
+          _after={{
+            content: '""',
+            display: 'block',
+            width: '60px',
+            height: '4px',
+            background: 'linear-gradient(90deg, #90CDF4, #1a365d)',
+            margin: '0 auto',
+            marginTop: '20px',
+            borderRadius: 'full',
+          }}
+        >
+          Trusted by Healthcare Professionals
+        </Heading>
+        <Text 
+          color="gray.600" 
+          textAlign="center" 
+          maxW="2xl"
+          fontSize="lg"
+        >
+          See what medical experts are saying about our platform
+        </Text>
+      </VStack>
+
+      {/* Testimonial grid */}
+      <Grid
+        templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }}
+        gap={{ base: 8, md: 10 }}
+        px={{ base: 4, md: 0 }}
+      >
+        <Testimonial
+          text="As a radiologist, I'm amazed by how this platform has enhanced our diagnostic capabilities. The accuracy and speed are remarkable."
+          author="Dr. Sarah Chen"
+          role="Radiologist"
+        />
+        <Testimonial
+          text="This system has transformed our workflow. We can now provide faster and more accurate diagnoses to our patients."
+          author="Dr. James Wilson"
+          role="Medical Director"
+        />
+        <Testimonial
+          text="The intuitive interface and reliable results make this an essential tool in our daily practice. Highly recommended."
+          author="Dr. Maria Garcia"
+          role="Chief Radiologist"
+        />
+      </Grid>
+    </VStack>
+  </Container>
+</Box>
+
       {/* Stats Section */}
       <Box bg="#f8fafc" py={16}>
         <Container maxW="container.xl">
@@ -486,6 +615,7 @@ const HomePage = () => {
           </Grid>
         </Container>
       </Box>
+      <ChatBot />
     </Box>
   );
 };
