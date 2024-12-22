@@ -1,0 +1,11 @@
+torch
+numpy
+pillow
+opencv-python
+segmentation-models-pytorch
+flask
+flask-cors
+tensorflow
+nltk
+pandas
+matplotlib
