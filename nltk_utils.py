@@ -1,7 +1,14 @@
 import numpy as np
 import nltk
-# nltk.download('punkt')
 from nltk.stem.porter import PorterStemmer
+
+# Ensure 'punkt' resource is available
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    print("Downloading 'punkt' resource for NLTK...")
+    nltk.download('punkt')
+
 stemmer = PorterStemmer()
 
 
