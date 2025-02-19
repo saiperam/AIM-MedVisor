@@ -1,56 +1,68 @@
-# AIM MedVisor: Simplifying MRI Analysis with AI
+# 🏆 AIM MedVisor: AI-Driven MRI Analysis for Spinal Health  
 
-## Project Overview
+## 📌 Project Overview  
+AIM MedVisor is an AI-powered medical tool designed to **streamline the diagnosis of spinal abnormalities** through advanced MRI analysis. By leveraging deep learning, MedVisor reduces barriers to diagnosis, making spinal health assessments more efficient and accessible.  
 
-AIM MedVisor is an AI-powered medical tool designed to streamline the diagnosis of spinal abnormalities through advanced MRI analysis. By leveraging dual-model AI systems, MedVisor reduces the barriers to diagnosis, making spinal health assessments more efficient and accessible.
+## 🏅 1st Place Recognition  
+Our work earned **1st place** in a **competitive evaluation** judged by **industry professionals and academic experts**, recognizing its contribution to **advancing medical image analysis**.  
 
-## Problem Statement
+## 🎯 Problem Statement  
+The path from identifying symptoms like **"my back hurts"** to diagnosing conditions such as **intervertebral disc degeneration** is complex and time-consuming. Current spinal assessment practices, which analyze MRI scans per vertebra, are hindered by **manual processes and a steep learning curve**.  
 
-The path from identifying symptoms like "my back hurts" to diagnosing conditions such as intervertebral disc degeneration is complex and time-consuming. Current spinal assessment practices, which analyze MRI scans per vertebra, are hindered by manual processes and a steep learning curve.
+## 💡 Solution  
+AIM MedVisor introduces a **two-model AI system** to address these challenges:  
 
-## Solution
+1. **Segmentation Model** 🧩  
+   - Processes full spine MRI scans to **identify individual vertebrae and discs**.  
+   - Uses a **UNet architecture** trained for precise segmentation.  
+   - Utilizes **OpenCV** to generate **bounding boxes** for targeted analysis.  
 
-AIM MedVisor introduces a two-model system to address these challenges:
+2. **Classification Model** 🏷️  
+   - Classifies individual vertebrae to **detect and grade disk deviations** based on medical grading systems (e.g., **Pfirrmann, Modic**).  
+   - Powered by a **ResNet50 deep learning model** to ensure **high accuracy** in diagnoses.  
 
-1. **Segmentation Model**: Processes full spine MRI scans to identify individual vertebrae and discs. The segmentation model is trained on a **UNet architecture** and utilizes **OpenCV** for boxing regions of interest.
-2. **Classification Model**: Classifies individual vertebrae to detect and grade disk deviations based on established grading systems like Pfirrmann and Modic. The diagnosis model is powered by a **ResNet50 architecture** for precise and reliable classification.
+## 🚀 Key Features  
+- **Dual-Model Architecture**: Enhances the accuracy of segmentation & classification tasks.  
+- **Industry-Relevant Tech Stack**:  
+  - **Model Development**: TensorFlow, PyTorch, Keras, SimpleITK, OpenCV  
+  - **Application**: React (Chakra UI), Python (Flask)  
+- **Scalability & Future Capabilities**: Supports **symptom progression prediction** & a **user-friendly interface** for non-professionals.  
 
-## Key Features
+## 🔬 How It Works  
+1️⃣ **Input**: Full spine MRI scan.  
+2️⃣ **Step 1**: **Segmentation Model** isolates vertebrae and discs (UNet + OpenCV).  
+3️⃣ **Step 2**: **Classification Model** grades and diagnoses detected abnormalities (ResNet50).  
 
-- **Dual-Model Architecture**: Enhances the accuracy of segmentation and classification tasks.
-- **Tech Stack**:
-  - **Model Development**: TensorFlow, PyTorch, Keras, SimpleITK, OpenCV
-  - **Application**: React (Chakra UI), Python (Flask)
-- **Expandable Scope**: Designed for future capabilities, including symptom progression prediction and user-friendly interfaces for non-professionals.
+## 🎯 Impact & Industry Validation  
+MedVisor **streamlines the diagnostic process**, enabling:  
+✅ **Early detection of spinal conditions** for better treatment outcomes.  
+✅ **Faster and more precise assessments** for healthcare professionals.  
+✅ **Bridging AI with real-world medical applications** to improve patient care.  
 
-## How It Works
+## 🛠️ Getting Started  
 
-1. **Input**: Full spine MRI scan.
-2. **Step 1**: Segmentation Model isolates individual vertebrae and discs using a UNet model with OpenCV for region boxing.
-3. **Step 2**: Classification Model grades and diagnoses detected abnormalities using ResNet50.
+### 🔹 Prerequisites  
+- Python **3.8+**  
+- Node.js **16+**  
+- TensorFlow & PyTorch installed  
 
-## Getting Started
+### 🔹 Installation  
 
-### Prerequisites
-- Python 3.8+
-- Node.js 16+
-- TensorFlow and PyTorch installed
+#### **1️⃣ Clone the Repository**  
+```bash
+git clone https://github.com/YourUsername/AIM-MedVisor.git
+cd AIM-MedVisor
+```
+#### **2️⃣ Set Up the Backend**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
+#### **3️⃣ Set Up the Frontend**
+```bash
+npm install
+npm start
+```
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YourUsername/AIM-MedVisor.git
-   cd AIM-MedVisor
-   ```
-2. Set up the backend:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-    pip install -r requirements.txt
-    python app.py
-    ```
-3. Set up the frontend:
-   ```bash
-   npm install
-   npm start
-   ```
